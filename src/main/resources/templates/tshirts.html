@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>T-Shirts</title>
+</head>
+<body>
+<h1>T-Shirts</h1>
+<a href="/tshirts/sortByPrice?order=asc">Sort by Price (Ascending)</a>
+<a href="/tshirts/sortByPrice?order=desc">Sort by Price (Descending)</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Size</th>
+        <th>Price BYN</th>
+        <th>Available</th>
+    </tr>
+    <tr th:each="tShirt : ${tShirts}">
+        <td th:text="${tShirt.id}"></td>
+        <td th:text="${tShirt.name}"></td>
+        <td th:text="${tShirt.description}"></td>
+        <td th:text="${tShirt.size}"></td>
+        <td th:text="${tShirt.price}"></td>
+        <td th:text="${tShirt.available}"></td>
+    </tr>
+</table>
+<a href="/tshirts/create">Create T-Shirt</a>
+</body>
+</html>
