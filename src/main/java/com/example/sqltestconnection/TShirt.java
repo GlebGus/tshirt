@@ -2,6 +2,8 @@ package com.example.sqltestconnection;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "tshirts")
@@ -10,11 +12,13 @@ public class TShirt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(name = "description", columnDefinition = "text")
     private String description;
     private String size;
     private Double price;
     private boolean available;
-
+//    @OneToMany(mappedBy = "tShirt", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//private List<Image> images;
     public TShirt(int id, String name, String description, String size, Double price, boolean available) {
         this.id = id;
         this.name = name;
@@ -32,6 +36,7 @@ public class TShirt {
     public int getId() {
         return id;
     }
+
 
     public void setId(int id) {
         this.id = id;

@@ -6,16 +6,58 @@
 </head>
 <body>
 <h1>T-Shirts</h1>
-<a href="/tshirts/sortByPrice?order=asc">Sort by Price (Ascending)</a>
-<a href="/tshirts/sortByPrice?order=desc">Sort by Price (Descending)</a>
 <table>
     <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Description</th>
-        <th>Size</th>
-        <th>Price BYN</th>
-        <th>Available</th>
+        <th>
+            <form action="/tshirts/sortBySize" method="get">
+            <p>
+                <select name="size">
+                    <option value="">All Sizes</option>
+                    <option value="XXS">XXS</option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                    <option value="XXXL">XXXL</option>
+                    <option value="4XL">4XL</option>
+                    <option value="5XL">5XL</option>
+                    <option value="6XL">6XL</option>
+                </select>
+                <button type="submit">Filter</button>
+            </p>
+        </form>
+        </th>
+
+        <th>
+        <form action="/tshirts/sortByPrice" method="get">
+            <p>
+                <select name="order">
+                    <option value="asc">Sort by Price (Ascending)</option>
+                    <option value="desc">Sort by Price (Descending)</option>
+                </select>
+                <button type="submit">Sort</button>
+            </p>
+        </form>
+        </th>
+
+
+        <th>
+            <form action="/tshirts/sortByAvailable" method="get" th:method="get">
+        <p>
+            <select name="available">
+                <option value="true">Available</option>
+                <option value="false">Not available</option>
+            </select>
+            <button type="submit">Sort</button>
+        </p>
+        </form>
+        </th>
+
     </tr>
     <tr th:each="tShirt : ${tShirts}">
         <td th:text="${tShirt.id}"></td>
@@ -24,6 +66,13 @@
         <td th:text="${tShirt.size}"></td>
         <td th:text="${tShirt.price}"></td>
         <td th:text="${tShirt.available}"></td>
+        <td>
+            <form action="/tshirts/delete/{id}?_method=DELETE" method="post">
+                <button type="submit" th:value="${tShirt.id}">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
     </tr>
 </table>
 <a href="/tshirts/create">Create T-Shirt</a>

@@ -3,18 +3,21 @@ package com.example.sqltestconnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class TshirtController {
+public class TShirtController {
 
     @Autowired
     private TShirtRepository tShirtRepository;
+
+    @Autowired
+    private TShirtsService tShirtsService;
 
     @GetMapping("/tshirts")
     public String getAllTShirts(Model model) {
@@ -29,11 +32,14 @@ public class TshirtController {
         return "create-tshirt";
     }
 
+
+
     @PostMapping("/tshirts/create")
     public String createTShirt(@ModelAttribute("tShirt") TShirt tShirt) {
         tShirtRepository.save(tShirt);
         return "redirect:/tshirts";
     }
+
     @GetMapping("/tshirts/sortByPrice")
     public String sortByPrice(Model model, @RequestParam("order") String order) {
         List<TShirt> tShirts;
@@ -45,23 +51,26 @@ public class TshirtController {
         model.addAttribute("tShirts", tShirts);
         return "tshirts";
     }
-
+    @GetMapping("/tshirts/sortByAvailable")
+    public String sortByAvailable(Model model, @RequestParam("available") String available) {
+        List<TShirt> tShirts;
+        if (available.equals("true")) {
+            tShirts = tShirtRepository.findAllByOrderByAvailable();
+        } else {
+            tShirts = tShirtRepository.findAll();
+        }
+        model.addAttribute("tShirts", tShirts);
+        return "tshirts";
+    }
+    @GetMapping("/tshirts/sortBySize")
+    public String sortBySize(@RequestParam("size") String size, Model model) {
+        List<TShirt> tShirts;
+        if (size.isEmpty()) {
+            tShirts = tShirtsService.getAllTShirts();
+        } else {
+            tShirts = tShirtsService.getTShirtsBySize(size);
+        }
+        model.addAttribute("tShirts", tShirts);
+        return "tshirts";
+    }
 }
-
-
-//    @GetMapping("/tshirts/sort")
-//    public String sortTShirts(@RequestParam("sortBy") String sortBy, Model model){
-//        List<TShirt> tShirts;
-//        if (sortBy.equals("priceDesc")){
-//            tShirts = tShirtRepository.findAllByOrderByPriceDesc();
-//        }else if (sortBy.equals("priceAsc")){
-//            tShirts = tShirtRepository.findAllByOrderByPriceAsc();
-//        }else if (sortBy.equals("size")){
-//            tShirts = tShirtRepository.findAllByOrderBySize();
-//        }else if (sortBy.equals("available")){
-//            tShirts = tShirtRepository.findAllByOrderByAvailable();
-//        }else {
-//            tShirts = tShirtRepository.findAll();
-//        }
-//        model.addAttribute("tShirts", tShirts);
-//        return "tShirts";

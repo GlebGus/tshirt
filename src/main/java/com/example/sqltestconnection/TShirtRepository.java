@@ -7,8 +7,12 @@ import java.util.List;
 
 @Repository
 public interface TShirtRepository extends JpaRepository<TShirt, Long> {
-//    List<TShirt> findAllByOrderBySize();
+    //    List<TShirt> findAllByOrderBySize();
     List<TShirt> findAllByOrderByPriceDesc();
-   List<TShirt> findAllByOrderByPriceAsc();
-//    List<TShirt> findAllByOrderByAvailable();
+
+    List<TShirt> findAllByOrderByPriceAsc();
+
+    List<TShirt> findBySize(String size);
+
+    List<TShirt> findAllByOrderByAvailable();
 }
