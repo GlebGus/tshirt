@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Create T-Shirt</h1>
-<form th:action="@{/tshirts/create}" th:object="${tShirt}" method="post">
+<form th:action="@{/tshirts/create}" th:object="${tShirt}" method="post" enctype="multipart/form-data">
     <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}"/><br/>
     <label for="description">Description:</label>
@@ -17,6 +17,13 @@
     <input type="text" id="price" th:field="*{price}"/><br/>
     <label for="available">Available:</label>
     <input type="checkbox" id="available" th:field="*{available}"/><br/>
+
+    <label for="image1">First image:</label>
+    <input type="file" id="image1" name="file1"/><br/>
+
+    <label for="image2">Second image:</label>
+    <input type="file" id="image2" name="file2"/><br/>
+
     <button type="submit">Create</button>
 </form>
 </body>

@@ -67,10 +67,17 @@
         <td th:text="${tShirt.price}"></td>
         <td th:text="${tShirt.available}"></td>
         <td>
-            <form action="/tshirts/delete/{id}?_method=DELETE" method="post">
-                <button type="submit" th:value="${tShirt.id}">Delete</button>
+            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" method="post">
+                <input type="submit" value="Delete">
             </form>
         </td>
+        <td>
+            <div th:each="image : ${tShirt.images}" style="display: inline-block;">
+                <img th:src="@{/images/{id}(id=${image.id})}" alt="Image" height="200" />
+            </div>
+        </td>
+
+    </tr>
     </tr>
 </table>
     </tr>

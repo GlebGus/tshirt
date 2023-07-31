@@ -2,6 +2,8 @@ package com.example.sqltestconnection;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,8 +19,20 @@ public class TShirt {
     private String size;
     private Double price;
     private boolean available;
-//    @OneToMany(mappedBy = "tShirt", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//private List<Image> images;
+   @OneToMany(mappedBy = "tShirt", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+    private int previewImageId;
+    private LocalDateTime dateOfCreated;
+
+    public void addImageToTShirt(Image image){
+        image.settShirt(this);
+        images.add(image);
+    }
+
+    @PrePersist
+    private void init(){
+        dateOfCreated = LocalDateTime.now();
+    }
     public TShirt(int id, String name, String description, String size, Double price, boolean available) {
         this.id = id;
         this.name = name;
@@ -32,6 +46,29 @@ public class TShirt {
 
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public int getPreviewImageId() {
+        return previewImageId;
+    }
+
+    public void setPreviewImageId(int previewImageId) {
+        this.previewImageId = previewImageId;
+    }
+
+    public LocalDateTime getDateOfCreated() {
+        return dateOfCreated;
+    }
+
+    public void setDateOfCreated(LocalDateTime dateOfCreated) {
+        this.dateOfCreated = dateOfCreated;
+    }
 
     public int getId() {
         return id;

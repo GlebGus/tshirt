@@ -18,7 +18,8 @@ public class TShirtController {
 
     @Autowired
     private TShirtsService tShirtsService;
-
+    @Autowired
+private ImageRepository imageRepository;
     @GetMapping("/tshirts")
     public String getAllTShirts(Model model) {
         List<TShirt> tShirts = tShirtRepository.findAll();
@@ -31,14 +32,21 @@ public class TShirtController {
         model.addAttribute("tShirt", new TShirt());
         return "create-tshirt";
     }
-
+@PostMapping("/tshirts/delete/{id}")
+public String deleteTShirt(@PathVariable Long id){
+        tShirtRepository.deleteById(id);
+return "redirect:/tshirts";
+}
 
 
     @PostMapping("/tshirts/create")
-    public String createTShirt(@ModelAttribute("tShirt") TShirt tShirt) {
-        tShirtRepository.save(tShirt);
+    public String createTShirt(@ModelAttribute("tShirt") TShirt tShirt,
+                               @RequestParam("file1") MultipartFile file1,
+                               @RequestParam("file2") MultipartFile file2)  throws IOException{
+        tShirtsService.saveTShirt(tShirt,file1,file2);
         return "redirect:/tshirts";
     }
+
 
     @GetMapping("/tshirts/sortByPrice")
     public String sortByPrice(Model model, @RequestParam("order") String order) {
