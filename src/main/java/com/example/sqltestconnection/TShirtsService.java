@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TShirtsService {
-
     private TShirtRepository tShirtRepository;
 
     @Autowired
@@ -49,6 +50,8 @@ public class TShirtsService {
     public List<TShirt> getTShirtsBySize(String size) {
         return tShirtRepository.findBySize(size);
     }
+
+
     public List<TShirt> getAllTShirts() {
         return tShirtRepository.findAll();
     }
