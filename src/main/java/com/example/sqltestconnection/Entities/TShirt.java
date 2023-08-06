@@ -1,4 +1,4 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Entities;
 
 import jakarta.persistence.*;
 

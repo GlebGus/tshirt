@@ -1,14 +1,13 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Services;
 
+import com.example.sqltestconnection.Entities.Image;
+import com.example.sqltestconnection.Entities.TShirt;
+import com.example.sqltestconnection.Repositories.TShirtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

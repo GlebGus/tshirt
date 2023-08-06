@@ -1,10 +1,12 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Controllers;
 
+import com.example.sqltestconnection.Entities.TShirt;
+import com.example.sqltestconnection.Repositories.TShirtRepository;
+import com.example.sqltestconnection.Services.TShirtsService;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

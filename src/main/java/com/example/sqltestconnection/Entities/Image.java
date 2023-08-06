@@ -1,5 +1,6 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Entities;
 
+import com.example.sqltestconnection.Entities.TShirt;
 import jakarta.persistence.*;
 
 
