@@ -1,7 +1,7 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Configs;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.sqltestconnection.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,15 +27,15 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login**","/logout**", "/register",
+                        .requestMatchers( "/register",
                                 "/tshirts","/cart", "/cart/add","/profile").permitAll()
-                        .requestMatchers("/one", "/addText").hasRole("ADMIN")
+                        .requestMatchers("/tshirts/delete/{id}", "/tshirts/create").hasRole("ADMIN")
                         .anyRequest().authenticated()
 
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/tshirts")
+                        .defaultSuccessUrl("/tshirts", true)
                         .permitAll());
 
 

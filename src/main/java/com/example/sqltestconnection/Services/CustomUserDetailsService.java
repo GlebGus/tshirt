@@ -1,4 +1,4 @@
-package com.example.sqltestconnection;
+package com.example.sqltestconnection.Services;
 
 import com.example.sqltestconnection.Entities.User;
 import com.example.sqltestconnection.Repositories.UserRepository;

@@ -6,6 +6,7 @@ import com.example.sqltestconnection.Services.TShirtsService;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +36,13 @@ public class TShirtController {
         model.addAttribute("tShirts", tShirts);
         return "tshirts";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/tshirts/create")
     public String showCreateForm(Model model) {
         model.addAttribute("tShirt", new TShirt());
         return "create-tshirt";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/tshirts/create")
     public String createTShirt(@ModelAttribute("tShirt") TShirt tShirt,
                                @RequestParam("file1") MultipartFile file1,
@@ -49,7 +50,7 @@ public class TShirtController {
         tShirtsService.saveTShirt(tShirt, file1, file2);
         return "redirect:/tshirts";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/tshirts/delete/{id}")
     public String deleteTShirt(@PathVariable Long id) {
         tShirtRepository.deleteById(id);

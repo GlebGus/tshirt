@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>T-Shirts</title>
@@ -69,7 +70,7 @@
         <td th:text="${tShirt.price}"></td>
         <td th:text="${tShirt.available}"></td>
         <td>
-            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" method="post">
+            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
                 <input type="submit" value="Delete" class="floating-button delete">
             </form>
         </td>
@@ -91,7 +92,7 @@
 <a href="/login">Войти в систему</a>
 <a href="/profile"> Профиль</a>
 <a href="/logout"> Выйти из системы</a>
-<a href="/tshirts/create">Create T-Shirt</a>
+<a sec:authorize="hasRole('ADMIN')" href="/tshirts/create">Create T-Shirt</a>
 <a href="/cart">Cart</a>
 </body>
 </html>

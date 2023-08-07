@@ -2,7 +2,6 @@ package com.example.sqltestconnection.Controllers;
 
 import com.example.sqltestconnection.Entities.User;
 
-import com.example.sqltestconnection.CustomUserDetailsService;
 import com.example.sqltestconnection.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,6 +66,6 @@ public class RegistrationController {
         session.invalidate();
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(null);
-        return "redirect:/login";
+        return "redirect:/tshirts";
     }
 }
