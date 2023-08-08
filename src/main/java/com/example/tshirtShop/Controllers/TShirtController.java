@@ -1,8 +1,9 @@
-package com.example.sqltestconnection.Controllers;
+package com.example.tshirtShop.Controllers;
 
-import com.example.sqltestconnection.Entities.TShirt;
-import com.example.sqltestconnection.Repositories.TShirtRepository;
-import com.example.sqltestconnection.Services.TShirtsService;
+import com.example.tshirtShop.Entities.Image;
+import com.example.tshirtShop.Entities.TShirt;
+import com.example.tshirtShop.Repositories.TShirtRepository;
+import com.example.tshirtShop.Services.TShirtsService;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,47 @@ public class TShirtController {
     public String deleteTShirt(@PathVariable Long id) {
         tShirtRepository.deleteById(id);
         return "redirect:/tshirts";
+    }
+    @GetMapping("/tshirts/edit/{id}")
+    public String showEditTShirtForm(@PathVariable("id") Long id, Model model) {
+        TShirt tShirt = tShirtsService.getTShirtsById(id);
+        model.addAttribute("tShirt", tShirt);
+        return "editTShirt";
+    }
+    @PostMapping("/tshirts/edit/{id}")
+    public String editTShirt(@PathVariable("id") Long id,
+                             @ModelAttribute("tShirt") TShirt updatedTShirt,
+                             @RequestParam("file1") MultipartFile file1,
+                             @RequestParam("file2") MultipartFile file2) throws IOException {
+        TShirt tShirt = tShirtsService.getTShirtsById(id);
+        tShirt.setName(updatedTShirt.getName());
+        tShirt.setDescription(updatedTShirt.getDescription());
+        tShirt.setSize(updatedTShirt.getSize());
+        tShirt.setPrice(updatedTShirt.getPrice());
+        tShirt.setAvailable(updatedTShirt.isAvailable());
+
+        // Remove old images
+        tShirt.getImages().clear();
+
+        // Add new images
+        Image newImage1 = createImage(file1);
+        tShirt.getImages().add(newImage1);
+
+        Image newImage2 = createImage(file2);
+        tShirt.getImages().add(newImage2);
+
+        tShirtsService.saveTShirt(tShirt, file1, file2);
+        return "redirect:/tshirts";
+    }
+
+    private Image createImage(MultipartFile file) throws IOException {
+        Image image = new Image();
+        image.setName(file.getOriginalFilename());
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setSize(file.getSize());
+        image.setContentType(file.getContentType());
+        image.setBytes(file.getBytes());
+        return image;
     }
 
     @RequestMapping(value = "/cart/add", method = {RequestMethod.GET, RequestMethod.POST})

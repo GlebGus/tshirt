@@ -1,7 +1,7 @@
-package com.example.sqltestconnection.Configs;
+package com.example.tshirtShop.Configs;
 
 
-import com.example.sqltestconnection.Services.CustomUserDetailsService;
+import com.example.tshirtShop.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,9 +27,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers( "/register",
-                                "/tshirts","/cart", "/cart/add","/profile").permitAll()
-                        .requestMatchers("/tshirts/delete/{id}", "/tshirts/create").hasRole("ADMIN")
+                        .requestMatchers( "/register", "/tshirts","/cart", "/cart/add",
+                                "/profile","/images/{id}","/tshirts/sortByAvailable",
+                                "/tshirts/sortByPrice","/tshirts/sortBySize").permitAll()
+                        .requestMatchers("/tshirts/delete/{id}", "/tshirts/create",
+                                "/images/{id}", "/tshirts/edit/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated()
 
                 )

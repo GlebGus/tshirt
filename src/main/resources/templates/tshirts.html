@@ -11,7 +11,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <h1>T-Shirts</h1>
 <table>
     <tr>
-        <th>ID</th>
+        <th sec:authorize="hasRole('ADMIN')">ID</th>
         <th>Name</th>
         <th>Description</th>
         <th>
@@ -63,12 +63,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     </tr>
     <tr th:each="tShirt : ${tShirts}">
-        <td th:text="${tShirt.id}"></td>
+        <td th:text="${tShirt.id}" sec:authorize="hasRole('ADMIN')"></td>
         <td th:text="${tShirt.name}"></td>
         <td th:text="${tShirt.description}"></td>
         <td th:text="${tShirt.size}"></td>
         <td th:text="${tShirt.price}"></td>
         <td th:text="${tShirt.available}"></td>
+        <td><a th:href="@{/tshirts/edit/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')">Edit</a>
         <td>
             <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
                 <input type="submit" value="Delete" class="floating-button delete">
@@ -79,7 +80,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <td>
             <div th:each="image : ${tShirt.images}" style="display: inline-block;">
                 <img th:src="@{/images/{id}(id=${image.id})}" alt="Image" height="200" />
-                <br>
+                <form th:action="@{/images/{id}(id=${image.id})}" sec:authorize="hasRole('ADMIN')" method="post">
+                    <input type="submit" value="Delete" class="floating-button delete">
+                </form>
             </div>
         </td>
         <td><a th:href="@{/cart/add(tShirtid=${tShirt.id})}">Add to Cart</a></td>

@@ -1,4 +1,4 @@
-package com.example.sqltestconnection.Entities;
+package com.example.tshirtShop.Entities;
 
 import jakarta.persistence.*;
 

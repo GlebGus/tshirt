@@ -1,4 +1,4 @@
-package com.example.sqltestconnection;
+package com.example.tshirtShop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

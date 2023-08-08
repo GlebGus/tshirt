@@ -1,4 +1,4 @@
-package com.example.sqltestconnection;
+package com.example.tshirtShop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

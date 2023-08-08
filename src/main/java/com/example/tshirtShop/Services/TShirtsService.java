@@ -1,8 +1,8 @@
-package com.example.sqltestconnection.Services;
+package com.example.tshirtShop.Services;
 
-import com.example.sqltestconnection.Entities.Image;
-import com.example.sqltestconnection.Entities.TShirt;
-import com.example.sqltestconnection.Repositories.TShirtRepository;
+import com.example.tshirtShop.Entities.Image;
+import com.example.tshirtShop.Entities.TShirt;
+import com.example.tshirtShop.Repositories.TShirtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +33,7 @@ public class TShirtsService {
         }
         TShirt tShirtFromDb = tShirtRepository.save(tShirt);
         tShirtFromDb.setPreviewImageId(tShirtFromDb.getImages().get(0).getId());
-        tShirtRepository.save(tShirt);
+        tShirtRepository.save(tShirtFromDb);
 
     }
 
@@ -54,5 +54,7 @@ public class TShirtsService {
     public List<TShirt> getAllTShirts() {
         return tShirtRepository.findAll();
     }
-
+    public TShirt getTShirtsById(Long id) {
+        return tShirtRepository.findById(id).orElse(null);
+    }
 }

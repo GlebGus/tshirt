@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit T-Shirt</title>
+</head>
+<body>
+<h1>Edit T-Shirt</h1>
+<form th:action="@{/tshirts/edit/{id}(id=${tShirt.id})}" th:object="${tShirt}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}"/><br/>
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}"/><br/>
+    <label for="size">Size:</label>
+    <input type="text" id="size" th:field="*{size}"/><br/>
+    <label for="price">Price:</label>
+    <input type="text" id="price" th:field="*{price}"/><br/>
+    <label for="available">Available:</label>
+    <input type="checkbox" id="available" th:field="*{available}"/><br/>
+
+    <label for="image1">First image:</label>
+    <input type="file" id="image1" name="file1"/><br/>
+
+    <label for="image2">Second image:</label>
+    <input type="file" id="image2" name="file2"/><br/>
+
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

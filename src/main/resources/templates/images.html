@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Images</title>
+</head>
+<body>
+<h1>All Images</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Original File Name</th>
+        <th>Size</th>
+        <th>Content Type</th>
+        <th>Is Preview Image</th>
+    </tr>
+    <tr th:each="image : ${images}">
+        <td th:text="${image.id}"></td>
+        <td th:text="${image.name}"></td>
+        <td th:text="${image.originalFileName}"></td>
+        <td th:text="${image.size}"></td>
+        <td th:text="${image.contentType}"></td>
+        <td th:text="${image.isPreviewImage}"></td>
+    </tr>
+</table>
+</body>
+</html>

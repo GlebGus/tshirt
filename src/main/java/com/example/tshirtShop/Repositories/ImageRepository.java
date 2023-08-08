@@ -1,6 +1,6 @@
-package com.example.sqltestconnection.Repositories;
+package com.example.tshirtShop.Repositories;
 
-import com.example.sqltestconnection.Entities.Image;
+import com.example.tshirtShop.Entities.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

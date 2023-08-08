@@ -1,6 +1,6 @@
-package com.example.sqltestconnection.Repositories;
+package com.example.tshirtShop.Repositories;
 
-import com.example.sqltestconnection.Entities.User;
+import com.example.tshirtShop.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

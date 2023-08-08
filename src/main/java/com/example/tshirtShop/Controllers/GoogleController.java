@@ -1,7 +1,4 @@
-package com.example.sqltestconnection.Controllers;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+package com.example.tshirtShop.Controllers;
 
 //@Controller
 //public class GoogleController {

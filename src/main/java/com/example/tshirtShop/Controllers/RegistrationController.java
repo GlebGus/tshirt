@@ -1,8 +1,8 @@
-package com.example.sqltestconnection.Controllers;
+package com.example.tshirtShop.Controllers;
 
-import com.example.sqltestconnection.Entities.User;
+import com.example.tshirtShop.Entities.User;
 
-import com.example.sqltestconnection.Services.UserService;
+import com.example.tshirtShop.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

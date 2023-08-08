@@ -1,6 +1,6 @@
-package com.example.sqltestconnection.Controllers;
+package com.example.tshirtShop.Controllers;
 
-import com.example.sqltestconnection.Entities.User;
+import com.example.tshirtShop.Entities.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
