@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>T-Shirts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link th:href="@{/styles/cssandjs/delete.css}" rel="stylesheet" />
-
+    <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
+    <script type="text/javascript" th:src="@{/styles/cssandjs/cartExistence.js}"></script>
 </head>
 <body>
 <h1>T-Shirts</h1>
@@ -60,33 +64,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 </p>
             </form>
         </th>
-
-    </tr>
-    <tr th:each="tShirt : ${tShirts}">
-        <td th:text="${tShirt.id}" sec:authorize="hasRole('ADMIN')"></td>
-        <td th:text="${tShirt.name}"></td>
-        <td th:text="${tShirt.description}"></td>
-        <td th:text="${tShirt.size}"></td>
-        <td th:text="${tShirt.price}"></td>
-        <td th:text="${tShirt.available}"></td>
-        <td><a th:href="@{/tshirts/edit/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')">Edit</a>
-        <td>
-            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
-                <input type="submit" value="Delete" class="floating-button delete">
-            </form>
-        </td>
-
-
-        <td>
-            <div th:each="image : ${tShirt.images}" style="display: inline-block;">
-                <img th:src="@{/images/{id}(id=${image.id})}" alt="Image" height="200" />
-                <form th:action="@{/images/{id}(id=${image.id})}" sec:authorize="hasRole('ADMIN')" method="post">
-                    <input type="submit" value="Delete" class="floating-button delete">
-                </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" th:each="tShirt : ${tShirts}">
+                    <div class="card">
+                        <img class="card-img-top" th:src="@{/images/{id}(id=${tShirt.previewImageId})}" alt="Image" height="200" />
+                        <div class="card-body">
+                            <h3 class="card-title" th:text="${tShirt.name}"></h3>
+                            <p class="card-text" th:text="${tShirt.description}"></p>
+                            <p class="card-text" th:text="${tShirt.size}"></p>
+                            <p class="card-text" th:text="${tShirt.price}"></p>
+                            <p class="card-text" th:text="${tShirt.available}"></p>
+                            <a class="btn btn-primary" th:href="@{/tshirts/edit/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')">Edit</a>
+                            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
+                                <input type="submit" value="Delete" class="btn btn-danger delete">
+                            </form>
+                            <a class="btn btn-success" th:href="@{/cart/add(tShirtid=${tShirt.id})}">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </td>
-        <td><a th:href="@{/cart/add(tShirtid=${tShirt.id})}">Add to Cart</a></td>
-    </tr>
+        </div>
 
 </table>
 </tr>

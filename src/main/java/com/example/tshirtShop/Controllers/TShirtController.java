@@ -106,11 +106,43 @@ public class TShirtController {
             cartItems = new ArrayList<>();
         }
 
-        TShirt tShirt = tShirtRepository.findById(id).orElse(null);
-        Hibernate.initialize(tShirt.getImages());
-        cartItems.add(tShirt);
-        session.setAttribute("cartItems", cartItems);
+        // Проверка наличия товара в корзине
+        boolean itemExists = false;
+        for (TShirt tShirt : cartItems) {
+            if (tShirt.getId() == id) {
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (!itemExists) {
+            TShirt tShirt = tShirtRepository.findById(id).orElse(null);
+            Hibernate.initialize(tShirt.getImages());
+            cartItems.add(tShirt);
+            session.setAttribute("cartItems", cartItems);
+
+        }
+
         return "redirect:/tshirts";
+    }
+    @RequestMapping(value = "/cart/remove", method = {RequestMethod.GET, RequestMethod.POST})
+    public String removeFromCart(@RequestParam("tShirtid") Long id, HttpSession session) {
+        List<TShirt> cartItems = (List<TShirt>) session.getAttribute("cartItems");
+        if (cartItems != null) {
+            TShirt tShirtToRemove = null;
+            for (TShirt tShirt : cartItems) {
+                if (tShirt.getId() == id) {
+                    tShirtToRemove = tShirt;
+                    break;
+                }
+            }
+            if (tShirtToRemove != null) {
+                cartItems.remove(tShirtToRemove);
+
+            }
+        }
+        session.setAttribute("cartItems", cartItems);
+        return "redirect:/cart";
     }
     @GetMapping("/cart")
     public String showCart(Model model, HttpSession session){

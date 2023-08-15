@@ -12,5 +12,11 @@
                 <br>
             </div>
         </td>
+        <td>
+            <form th:action="@{/cart/remove}" method="post">
+                <input type="hidden" name="tShirtid" th:value="${tShirt.id}" />
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
     </tr>
 </table>
