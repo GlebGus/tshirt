@@ -1,4 +1,17 @@
-<table>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>T-Shirts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
+</head>
+<body>
+<h1>T-Shirts</h1>
+    <table>
     <tr th:each="tShirt : ${cartItems}">
         <td th:text="${tShirt.id}"></td>
         <td th:text="${tShirt.name}"></td>
@@ -19,4 +32,29 @@
             </form>
         </td>
     </tr>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#orderForm" aria-expanded="false" aria-controls="orderForm">
+            Оформить заказ
+        </button>
+
+        <div class="collapse" id="orderForm">
+            <form th:action="@{/cart/create}" method="post">
+                <div class="mb-3">
+                    <label for="nameOfUser" class="form-label">Ваше имя</label>
+                    <input type="text" class="form-control" id="nameOfUser" name="nameOfUser" required>
+                </div>
+                <div class="mb-3">
+                    <label for="postOffice" class="form-label">Почтовое отделение</label>
+                    <input type="text" class="form-control" id="postOffice" name="postOffice" required>
+                </div>
+                <div class="mb-3">
+                    <label for="postalCode" class="form-label">Почтовый индекс</label>
+                    <input type="text" class="form-control" id="postalCode" name="postalCode" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Номер телефона</label>
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                </div>
+                <button type="submit" class="btn btn-success">Отправить заказ</button>
+            </form>
+        </div>
 </table>

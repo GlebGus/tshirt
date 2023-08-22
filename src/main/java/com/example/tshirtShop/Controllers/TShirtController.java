@@ -120,7 +120,6 @@ public class TShirtController {
             Hibernate.initialize(tShirt.getImages());
             cartItems.add(tShirt);
             session.setAttribute("cartItems", cartItems);
-
         }
 
         return "redirect:/tshirts";

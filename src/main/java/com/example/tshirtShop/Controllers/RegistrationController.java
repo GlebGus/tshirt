@@ -2,10 +2,12 @@ package com.example.tshirtShop.Controllers;
 
 import com.example.tshirtShop.Entities.User;
 
+import com.example.tshirtShop.Repositories.UserRepository;
 import com.example.tshirtShop.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class RegistrationController {
     private final UserService userService;
-
+    @Autowired
+private UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
 
     public RegistrationController(UserService userService, AuthenticationManager authenticationManager) {

@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers( "/register", "/tshirts","/cart", "/cart/add",
-                                "/profile","/images/{id}","/tshirts/sortByAvailable", "/cart/add**",
+                                "/profile","/images/{id}","/tshirts/sortByAvailable", "/cart/add**", "/cart/create",
                                 "/tshirts/sortByPrice","/tshirts/sortBySize","/cart/remove").permitAll()
                         .requestMatchers("/tshirts/delete/{id}", "/tshirts/create",
                                 "/images/{id}", "/tshirts/edit/{id}").hasRole("ADMIN")
@@ -37,9 +37,8 @@ public class SecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .disable());
-                      //  .defaultSuccessUrl("/tshirts", true)
-                   //     .permitAll());
+                     .defaultSuccessUrl("/tshirts", true)
+                       .permitAll());
 
 
         return http.build();
