@@ -23,6 +23,15 @@ public class TShirt {
     private List<Image> images = new ArrayList<>();
     private int previewImageId;
     private LocalDateTime dateOfCreated;
+    private boolean isDisabled;
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
 
     public void addImageToTShirt(Image image){
         image.settShirt(this);

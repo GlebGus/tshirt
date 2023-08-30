@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link th:href="@{/styles/cssandjs/delete.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
+    <script type="text/javascript" th:src="@{/styles/cssandjs/addButtonChange.js}"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/profileOpen.js}"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/cartExistence.js}"></script>
 </head>
@@ -81,7 +82,51 @@
                             <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
                                 <input type="submit" value="Delete" class="btn btn-danger delete">
                             </form>
-                            <a class="btn btn-success" th:href="@{/cart/add(tShirtid=${tShirt.id})}">Add to Cart</a>
+                            <script>
+                                $(".addToCartButton").click(function() {
+                                    var button = $(this);
+                                    var url = button.attr("href");
+
+                                    // Отправляем AJAX-запрос для добавления товара в корзину
+                                    $.ajax({
+                                        url: url,
+                                        type: "GET",
+                                        success: function() {
+                                            // Добавляем товар в корзину
+
+                                            // Делаем кнопку недоступной
+                                            button.addClass("disabled");
+                                            button.attr("disabled", "disabled");
+
+                                            // Устанавливаем cookie с информацией о добавленном товаре
+                                            var tShirtId = button.data("tshirt-id");
+                                            document.cookie = "addedTShirt=" + tShirtId + "; path=/";
+                                        }
+                                    });
+
+                                    return false;
+                                });
+                            </script>
+<!--                            <script>-->
+<!--                                $(document).ready(function() {-->
+<!--                                    $(".addToCartButton").click(function() {-->
+<!--                                        var button = $(this);-->
+
+<!--                                        $.ajax({-->
+<!--                                            url: button.attr("href"),-->
+<!--                                            type: "POST",-->
+<!--                                            success: function(response) {-->
+<!--                                                button.text("Товар успешно добавлен в корзину");-->
+<!--                                                button.attr("disabled", true);-->
+<!--                                            }-->
+<!--                                        });-->
+
+<!--                                    });-->
+<!--                                });-->
+<!--                            </script>-->
+                            <a class="btn btn-success addToCartButton" th:href="@{/cart/add(tShirtid=${tShirt.id})}"
+                               th:classappend="${itemAdded} ? 'disabled' : ''" th:disabled="${itemAdded}" data-tshirt-id="${tShirt.id}">Add to Cart</a>
+
                         </div>
                     </div>
                 </div>
