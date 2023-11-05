@@ -1,4 +1,4 @@
-package com.example.tshirtShop.Services;
+package com.example.tshirtShop.Repositories.Services;
 
 import com.example.tshirtShop.Entities.User;
 import com.example.tshirtShop.Repositories.UserRepository;

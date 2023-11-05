@@ -1,7 +1,7 @@
 package com.example.tshirtShop.Configs;
 
 
-import com.example.tshirtShop.Services.CustomUserDetailsService;
+import com.example.tshirtShop.Repositories.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,10 +35,11 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
                 )
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                     .defaultSuccessUrl("/tshirts", true)
-                       .permitAll());
+                .formLogin().disable();
+//                .formLogin((form) -> form
+//                        .loginPage("/login")
+//                     .defaultSuccessUrl("/tshirts", true)
+//                       .permitAll());
 
 
         return http.build();

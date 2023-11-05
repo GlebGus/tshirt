@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link th:href="@{/styles/cssandjs/delete.css}" rel="stylesheet" />
+    <link th:href="@{/styles/cssandjs/removeFromCartButton.css}"/>
     <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/addButtonChange.js}"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/profileOpen.js}"></script>
@@ -101,32 +102,58 @@
                                             // Устанавливаем cookie с информацией о добавленном товаре
                                             var tShirtId = button.data("tshirt-id");
                                             document.cookie = "addedTShirt=" + tShirtId + "; path=/";
+
+                                            // Показываем кнопку "Remove from Cart"
+                                            button.addClass("added");
+                                            button.next(".removeFromCartButton").show();
+                                        }
+                                    });
+
+                                    return false;
+                                });
+
+                                $(".removeFromCartButton").click(function() {
+                                    var button = $(this);
+                                    var url = button.attr("href");
+
+                                    // Отправляем AJAX-запрос для удаления товара из корзины
+                                    $.ajax({
+                                        url: url,
+                                        type: "GET",
+                                        success: function() {
+                                            // Удаляем товар из корзины
+
+                                            // Изменяем кнопку на странице корзины
+                                            var tShirtId = button.data("tshirt-id");
+                                            var addToCartButton = $(".addToCartButton[data-tshirt-id='" + tShirtId + "']");
+                                            addToCartButton.removeClass("btn-danger added");
+                                            addToCartButton.addClass("btn-success");
+                                            addToCartButton.text("Add to Cart");
+                                            addToCartButton.removeClass("disabled");
+                                            addToCartButton.removeAttr("disabled");
+
+                                            // Удаляем cookie с информацией о добавленном товаре
+                                            document.cookie = "addedTShirt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                                            // Скрываем кнопку "Remove from Cart"
+                                            button.hide();
                                         }
                                     });
 
                                     return false;
                                 });
                             </script>
-<!--                            <script>-->
-<!--                                $(document).ready(function() {-->
-<!--                                    $(".addToCartButton").click(function() {-->
-<!--                                        var button = $(this);-->
-
-<!--                                        $.ajax({-->
-<!--                                            url: button.attr("href"),-->
-<!--                                            type: "POST",-->
-<!--                                            success: function(response) {-->
-<!--                                                button.text("Товар успешно добавлен в корзину");-->
-<!--                                                button.attr("disabled", true);-->
-<!--                                            }-->
-<!--                                        });-->
-
-<!--                                    });-->
-<!--                                });-->
-<!--                            </script>-->
-                            <a class="btn btn-success addToCartButton" th:href="@{/cart/add(tShirtid=${tShirt.id})}"
-                               th:classappend="${itemAdded} ? 'disabled' : ''" th:disabled="${itemAdded}" data-tshirt-id="${tShirt.id}">Add to Cart</a>
-
+                            <a class="btn btn-success addToCartButton"
+                               th:href="@{/cart/add(tShirtid=${tShirt.id})}"
+                               th:classappend="${itemAdded} ? 'btn-danger' : ''"
+                               th:text="${itemAdded} ? 'Remove from Cart' : 'Add to Cart'"
+                               data-tshirt-id="${tShirt.id}">
+                            </a>
+                            <a class="btn btn-danger removeFromCartButton"
+                               th:href="@{/cart/remove(tShirtid=${tShirt.id})}"
+                               data-tshirt-id="${tShirt.id}" style="display:none;">
+                                Remove from Cart
+                            </a>
                         </div>
                     </div>
                 </div>
