@@ -3,7 +3,7 @@ package com.example.tshirtShop.Controllers;
 import com.example.tshirtShop.Entities.User;
 
 import com.example.tshirtShop.Repositories.UserRepository;
-import com.example.tshirtShop.Services.UserService;
+import com.example.tshirtShop.Repositories.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

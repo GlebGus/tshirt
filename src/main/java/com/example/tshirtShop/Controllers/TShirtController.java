@@ -3,7 +3,7 @@ package com.example.tshirtShop.Controllers;
 import com.example.tshirtShop.Entities.Image;
 import com.example.tshirtShop.Entities.TShirt;
 import com.example.tshirtShop.Repositories.TShirtRepository;
-import com.example.tshirtShop.Services.TShirtsService;
+import com.example.tshirtShop.Repositories.Services.TShirtsService;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -100,7 +97,7 @@ public class TShirtController {
     }
 
     @RequestMapping(value = "/cart/add", method = {RequestMethod.GET, RequestMethod.POST})
-    public String addToCart(@RequestParam("tShirtid") Long id, HttpSession session) {
+    public String addToCart(@RequestParam("tShirtid") Long id, HttpSession session, Model model) {
         List<TShirt> cartItems = (List<TShirt>) session.getAttribute("cartItems");
         if (cartItems == null){
             cartItems = new ArrayList<>();
@@ -114,16 +111,28 @@ public class TShirtController {
                 break;
             }
         }
-
         if (!itemExists) {
             TShirt tShirt = tShirtRepository.findById(id).orElse(null);
             Hibernate.initialize(tShirt.getImages());
             cartItems.add(tShirt);
             session.setAttribute("cartItems", cartItems);
+            model.addAttribute("itemAdded", true);
+        } else {
+            Iterator<TShirt> iterator = cartItems.iterator();
+            while (iterator.hasNext()) {
+                TShirt tShirt = iterator.next();
+                if (tShirt.getId() == id) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            session.setAttribute("cartItems", cartItems);
+            model.addAttribute("itemAdded", false);
         }
 
         return "redirect:/tshirts";
     }
+
     @RequestMapping(value = "/cart/remove", method = {RequestMethod.GET, RequestMethod.POST})
     public String removeFromCart(@RequestParam("tShirtid") Long id, HttpSession session) {
         List<TShirt> cartItems = (List<TShirt>) session.getAttribute("cartItems");
