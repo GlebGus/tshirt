@@ -6,6 +6,7 @@
     <title>T-Shirts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script type="text/javascript" th:src="@{/styles/cssandjs/findToAdresses.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
 </head>
@@ -58,3 +59,231 @@
             </form>
         </div>
 </table>
+<form autocomplete="off" action="/action_page.php">
+    <div class="autocomplete" style="width:300px;">
+        <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    </div>
+    <input type="submit">
+</form>
+
+<script>
+        function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].toUpperCase().indexOf(val.toUpperCase()) > -1) {
+        /*create a DIV element for each matching element:*/
+        b = document.createElement("DIV");
+        /*make the matching letters bold:*/
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        b.innerHTML += arr[i].substr(val.length);
+        /*insert a input field that will hold the current array item's value:*/
+        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+        /*execute a function when someone clicks on the item value (DIV element):*/
+        b.addEventListener("click", function(e) {
+        /*insert the value for the autocomplete text field:*/
+        inp.value = this.getElementsByTagName("input")[0].value;
+        /*close the list of autocompleted values,
+        (or any other open lists of autocompleted values:*/
+        closeAllLists();
+    });
+        a.appendChild(b);
+    }
+    }
+    });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+    } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+    } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+        /*and simulate a click on the "active" item:*/
+        if (x) x[currentFocus].click();
+    }
+    }
+    });
+        function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
+    }
+        function removeActive(x) {
+        /*a function to remove the "active" class from all autocomplete items:*/
+        for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+    }
+    }
+        function closeAllLists(elmnt) {
+        /*close all autocomplete lists in the document,
+        except the one passed as an argument:*/
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+    }
+    }
+    }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+    }
+        var addresses = ["ул. Вокзальная 22",
+        "ул. Московская 16",
+        "ул. Сторожевская 8",
+        "ул. Одинцова, 113",
+        "ул. Танка 36/2",
+        "пр. Независимости 46",
+        "ул. Маяковского 8",
+        "ул. Жуковского 6/2",
+        "пр. Независимости 20",
+        "ул. Чеботарева 1/6",
+        "ул. Советская 11",
+        "пл. Привокзальная 3",
+        "пр. Независимости 91",
+        "ул. Я.Коласа 31",
+        "ул. С.Ковалевской 61",
+        "ул. Я.Мавра 33а",
+        "ул. К.Маркса 38",
+        "ул. Кунцевщина 35",
+        "ул. Якубовского 32",
+        "ул. Лобанка 109",
+        "ул. пр. Победителей,123",
+        "пр. Партизанский 107",
+        "ул. Шаранговича 48",
+        "пр. Независимости 103",
+        "ул. Асаналиева 40/1",
+        "ул. Есенина 10",
+        "ул. Жилуновича 26",
+        "ул. ул. Уманская, 55",
+        "ул. Маяковского 164",
+        "ул. Коммунистическая 3",
+        "ул. Кирова 33",
+        "ул. Славянская 4",
+        "ул. Филимонова 45",
+        "ул. Рыбалко 2",
+        "ул. Козлова 6",
+        "ул. Тарханова 11",
+        "ул. Коржа 11",
+        "ул. Уральская 16",
+        "ул. Долгобродская 4",
+        "ул. Брилевская 14",
+        "ул. Беды 19",
+        "ул. Рафиева 44",
+        "пр. Дзержинского, 91",
+        "пр. Независимости 95",
+        "ул. Барамзиной 16",
+        "ул. Наполеона Орды 23",
+        "ул. Солтыса 189",
+        "ул. Нестерова 51",
+        "ул. Романовская Слобода 24",
+        "ул. Кнорина 16","пр. газеты Правда 20",
+        "пр. газеты Звязда 55",
+        "ул. Шишкина 26",
+        "ул. Карбышева 11а",
+        "ул. Казинца 120",
+        "ул. Притыцкого 56",
+        "ул. Богдановича 53",
+        "ул. Лынькова 59",
+        "ул. Гинтовта 14",
+        "пр. Победителей 21",
+        "ул. Корженевского 14",
+        "ул. Глебки 118",
+        "ул. Мирошниченко 1",
+        "ул. Бурдейного 13",
+        "ул. Одинцова 36/1",
+        "ул. Охотская 135",
+        "ул. Корвата 36",
+        "ул. Притыцкого 78",
+        "ул. Руссиянова 9","ул. Рафиева 93/4",
+        "ул. Брыля, 30",
+        "тр-т Старовиленский 28/1",
+        "тер. аэропорта Минск-2",
+        "ул. Жиновича, 21",
+        "ул. Героев 120 дивизии 9",
+        "ул. ул.Гуртьева, 7",
+        "ул. Налибокская,36",
+        "ул. Панченко,60",
+        "ул. Каменногорская, 3",
+        "пр-т Победителей,123",
+        "ул. Нёманская,35",
+        "ул. Ландера 36а",
+        "ул. Аэродромная 7",
+        "ул. Ташкентская 16",
+        "ул. Шпилевского.54",
+        "б-р. Шевченко 17",
+        "ул. Ванеева 18",
+        "ул. Смолячкова 21",
+        "ул. Академическая 1",
+        "ул. Ольшевского 11",
+        "ул. Берута 24/1",
+        "ул. Бачило 12",
+        "ул. Голодеда 49",
+        "ул. Маршала Лосика,31",
+        "ул. Кальварийская 44",
+        "ул. Сердича 10",
+        "пр. Рокоссовского 113",
+        "ул. Славинского 45",
+        "ул. Пулихова 19",
+        "ул. Уманская 55",
+        "тр-т Логойский 27",
+        "пр. Пушкина 28",
+        "ул. Ольшевского 57",
+        "пр. Рокоссовского 33",
+        "ул. Якубова 66/2",
+        "ул. Голодеда 7",
+        "ул. Слободская 15",
+        "ул. Брестская 56/1",
+        "ул. Богдановича 78",
+        "ул. Малинина, 28, к.5",
+        "пр. Партизанский 147",
+        "ул. Калиновского 55",
+        "ул. Жудро 59",
+        "пр. Партизанский 34/1",
+        "ул. Корженевского 25",
+        "ул. Красина 25 бл. А",
+        "пр. Рокоссовского 49",
+        "ул. Лучины 8",
+        "тр-т. Логойский 1/1",
+        "пр. Независимости 131/1",
+        "ул. Кижеватова 80/1"];
+        autocomplete(document.getElementById("myInput"), addresses);
+</script>
+
+</body>
+</html>
