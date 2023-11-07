@@ -64,7 +64,7 @@
     </div>
 </table>
 <script>
-    function autocomplete(inp, arr) {
+    function autocomplete(inp, arr, arr2) {
         var currentFocus;
         inp.addEventListener("input", function (e) {
             var a, b, i, val = this.value;
@@ -85,6 +85,12 @@
                     b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
                     b.addEventListener("click", function (e) {
                         inp.value = this.getElementsByTagName("input")[0].value;
+                        var index = arr.indexOf(this.getElementsByTagName("input")[0].value);
+                        if (inp.id === 'postalCode') {
+                            document.getElementById('mailAddress').value = arr2[index];
+                        } else if (inp.id === 'mailAddress') {
+                            document.getElementById('postalCode').value = arr2[index];
+                        }
                         closeAllLists();
                     });
                     a.appendChild(b);
@@ -255,7 +261,9 @@
         "тр-т. Логойский 1/1",
         "пр. Независимости 131/1",
         "ул. Кижеватова 80/1"];
-    autocomplete(document.getElementById("mailAddress"), addresses);
+    var indexes = ["200400", "200401", "200402"];
+    autocomplete(document.getElementById("postalCode"), indexes, addresses);
+    autocomplete(document.getElementById("mailAddress"), addresses, indexes);
 </script>
 
 </body>
