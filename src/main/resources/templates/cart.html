@@ -24,18 +24,23 @@
         <td th:text="${tShirt.price}"></td>
         <td th:text="${tShirt.available}"></td>
         <td>
-            <div th:each="image : ${tShirt.images}" style="display: inline-block;">
-                <img th:src="@{/images/{id}(id=${image.id})}" alt="Image" height="200"/>
-                <br>
-            </div>
-        </td>
-        <td>
             <form th:action="@{/cart/remove}" method="post">
                 <input type="hidden" name="tShirtid" th:value="${tShirt.id}"/>
                 <button type="submit">Удалить</button>
             </form>
         </td>
     </tr>
+    <tr th:if="${cartItems == null or cartItems.isEmpty()}">
+        <td colspan="8">
+            <div class="bx-sbb-empty-cart-container">
+                <div class="bx-sbb-empty-cart-image">
+                    <img src="https://www.flaticon.com/svg/static/icons/svg/1170/1170678.svg"  alt="Корзина">
+                </div>
+                <div class="bx-sbb-empty-cart-text">Ваша корзина пуста</div>
+            </div>
+        </td>
+    </tr>
+</table>
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#orderForm"
             aria-expanded="false" aria-controls="orderForm">
         Оформить заказ
@@ -312,6 +317,20 @@
     autocomplete(document.getElementById("postalCode"), indexes, addresses);
     autocomplete(document.getElementById("mailAddress"), addresses, indexes);
 </script>
+<script>
+    document.querySelector('.btn-success').addEventListener('click', function(e) {
+        e.preventDefault();
+        var inputAddress = document.getElementById('mailAddress').value;
+        var inputPostalCode = document.getElementById('postalCode').value;
 
+        // Проверка введенного адреса и почтового индекса
+        if (addresses.indexOf(inputAddress) === -1 || indexes.indexOf(inputPostalCode) === -1) {
+            alert('Ошибка: Введенный адрес или почтовый индекс не существуют');
+        } else {
+            // Если адрес и почтовый индекс существуют, можно отправить запрос
+            this.submit();
+        }
+    });
+</script>
 </body>
 </html>

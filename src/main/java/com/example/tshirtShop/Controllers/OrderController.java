@@ -18,36 +18,35 @@ import java.util.List;
 @Controller
 public class OrderController {
     @Autowired
-private OrderRepository orderRepository;
+    private OrderRepository orderRepository;
+
     @RequestMapping(value = "/cart/create", method = RequestMethod.POST)
     public String createOrder(@RequestParam("nameOfUser") String nameOfUser,
                               @RequestParam("postOffice") String postOffice,
                               @RequestParam("postalCode") String postalCode,
                               @RequestParam("phoneNumber") String phoneNumber,
                               HttpSession session) {
-        // Получение товаров из корзины
         List<TShirt> cartItems = (List<TShirt>) session.getAttribute("cartItems");
+        if (cartItems == null || cartItems.isEmpty()) {
+            // Если нет товаров, то возвращаем ошибку или перенаправляем на страницу с сообщением об ошибке
+            return "redirect:/error";
+        }
 
-        // Создание нового заказа
         Order order = new Order();
         order.setNameOfUser(nameOfUser);
         order.setPostOffice(postOffice);
         order.setPostalCode(postalCode);
         order.setPhoneNumber(phoneNumber);
         order.setOrderStatus(Order.OrderStatus.PROCESSING);
-        // Установка пользователя, связанного с заказом
         User user = (User) session.getAttribute("user");
         order.setUser(user);
         order.setTshirts(cartItems);
-orderRepository.save(order);
-
-        // Сохранение заказа в базе данных
-
-        // Очистка корзины
+        orderRepository.save(order);
         session.removeAttribute("cartItems");
 
         return "redirect:/tshirts";
     }
+
     @GetMapping("/orders")
     public String getAllOrders(Model model) {
         List<Order> orders = orderRepository.findAll();
