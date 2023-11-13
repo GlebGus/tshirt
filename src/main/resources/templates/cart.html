@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link th:href="@{/styles/cssandjs/cartlayout.css}" rel="stylesheet"/>
     <script type="text/javascript" th:src="@{/styles/cssandjs/findToAdresses.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
@@ -34,40 +35,43 @@
         <td colspan="8">
             <div class="bx-sbb-empty-cart-container">
                 <div class="bx-sbb-empty-cart-image">
-                    <img src="https://www.flaticon.com/svg/static/icons/svg/1170/1170678.svg"  alt="Корзина">
+                    <img th:src="@{/styles/cssandjs/basket.png}" alt="Корзина">
+                    <div class="bx-sbb-empty-cart-text">Ваша корзина пуста</div>
                 </div>
-                <div class="bx-sbb-empty-cart-text">Ваша корзина пуста</div>
             </div>
         </td>
     </tr>
+
 </table>
+<th:block th:if="${not #lists.isEmpty(cartItems)}">
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#orderForm"
             aria-expanded="false" aria-controls="orderForm">
         Оформить заказ
     </button>
+</th:block>
 
-    <div class="collapse" id="orderForm">
-        <form th:action="@{/cart/create}" method="post">
-            <div class="mb-3">
-                <label for="nameOfUser" class="form-label">Ваше имя</label>
-                <input type="text" class="form-control" id="nameOfUser" name="nameOfUser" required>
-            </div>
-            <div class="mb-3">
-                <label for="mailAddress" class="form-label">Почтовое отделение</label>
-                <input type="text" class="form-control" id="mailAddress" name="postOffice" required>
-            </div>
-            <div class="mb-3">
-                <label for="postalCode" class="form-label">Почтовый индекс</label>
-                <input type="text" class="form-control" id="postalCode" name="postalCode" required>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Номер телефона</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
-            </div>
-            <button type="submit" class="btn btn-success">Отправить заказ</button>
-        </form>
-    </div>
-</table>
+<div class="collapse" id="orderForm">
+    <form th:action="@{/cart/create}" method="post">
+        <div class="mb-3">
+            <label for="nameOfUser" class="form-label">Ваше имя</label>
+            <input type="text" class="form-control" id="nameOfUser" name="nameOfUser" required>
+        </div>
+        <div class="mb-3">
+            <label for="mailAddress" class="form-label">Почтовое отделение</label>
+            <input type="text" class="form-control" id="mailAddress" name="postOffice" required>
+        </div>
+        <div class="mb-3">
+            <label for="postalCode" class="form-label">Почтовый индекс</label>
+            <input type="text" class="form-control" id="postalCode" name="postalCode" required>
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Номер телефона</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+        </div>
+        <button type="submit" class="btn btn-success">Отправить заказ</button>
+    </form>
+</div>
+
 <script>
     function autocomplete(inp, arr, arr2) {
         var currentFocus;
@@ -297,7 +301,7 @@
         "ул. Корвата 36",
         "ул. Притыцкого 78",
         "ул. Руссиянова 9",
-        ];
+    ];
     var indexes = ["200400", "220001", "220002", "220003", "220004", "220005", "220006",
         "220007", "220008", "220009", "220010", "220011", "220012", "220013", "220014",
         "220015", "220016", "220017", "220018", "220019", "220020", "220021", "220022",
@@ -318,7 +322,7 @@
     autocomplete(document.getElementById("mailAddress"), addresses, indexes);
 </script>
 <script>
-    document.querySelector('.btn-success').addEventListener('click', function(e) {
+    document.querySelector('.btn-success').addEventListener('click', function (e) {
         e.preventDefault();
         var inputAddress = document.getElementById('mailAddress').value;
         var inputPostalCode = document.getElementById('postalCode').value;
