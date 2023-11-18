@@ -1,0 +1,25 @@
+.dark-section {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    flex: 1;
+    text-align: center;
+    align-self: center;
+    margin-left: 4cm;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.profile,
+.cart {
+    text-decoration: none;
+    color: #fff;
+}

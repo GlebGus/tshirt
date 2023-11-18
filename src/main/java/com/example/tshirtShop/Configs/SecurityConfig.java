@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers( "/register", "/tshirts","/cart", "/cart/add",
                                 "/profile","/images/{id}","/tshirts/sortByAvailable", "/cart/add**", "/cart/create",
-                                "/tshirts/sortByPrice","/tshirts/sortBySize","/cart/remove").permitAll()
+                                "/tshirts/sortByPrice","/tshirts/sortBySize","/cart/remove","/styles/cssandjs/**").permitAll()
                         .requestMatchers("/tshirts/delete/{id}", "/tshirts/create",
                                 "/images/{id}", "/tshirts/edit/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated()
