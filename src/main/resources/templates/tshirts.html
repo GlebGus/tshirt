@@ -92,6 +92,25 @@
                             <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
                                 <input type="submit" value="Delete" class="btn btn-danger delete">
                             </form>
+                            <a class="btn btn-success addToCartButton"
+                               th:href="@{/cart/add(tShirtid=${tShirt.id})}"
+                               th:classappend="${itemAdded} ? 'btn-danger' : ''"
+                               th:text="${itemAdded} ? 'Remove from Cart' : 'Add to Cart'"
+                               data-tshirt-id="${tShirt.id}">
+                            </a>
+                            <a class="btn btn-danger removeFromCartButton"
+                               th:href="@{/cart/remove(tShirtid=${tShirt.id})}"
+                               data-tshirt-id="${tShirt.id}" style="display:none;">
+                                Remove from Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</table>
+</tr>
                             <script>
                                 $(document).on("click", ".addToCartButton", function() {
                                     var button = $(this);
@@ -152,26 +171,8 @@
                                     return false;
                                 });
                             </script>
-                            <a class="btn btn-success addToCartButton"
-                               th:href="@{/cart/add(tShirtid=${tShirt.id})}"
-                               th:classappend="${itemAdded} ? 'btn-danger' : ''"
-                               th:text="${itemAdded} ? 'Remove from Cart' : 'Add to Cart'"
-                               data-tshirt-id="${tShirt.id}">
-                            </a>
-                            <a class="btn btn-danger removeFromCartButton"
-                               th:href="@{/cart/remove(tShirtid=${tShirt.id})}"
-                               data-tshirt-id="${tShirt.id}" style="display:none;">
-                                Remove from Cart
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-</table>
-</tr>
-</table>
+
 <a href="/register">Зарегестрировать пользователя</a>
 <a href="/login">Войти в систему</a>
 <a href="/profile"> Профиль</a>
