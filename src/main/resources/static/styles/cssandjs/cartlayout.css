@@ -1,0 +1,16 @@
+.bx-sbb-empty-cart-container {
+    height: 9cm; /* устанавливаем высоту в 7 сантиметров */
+    width: 100vw; /* устанавливаем ширину на всю длину страницы */
+    display: flex;
+    flex-direction: column; /* изменяем направление flex контейнера на колонку */
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1; /* цвет фона */
+}
+
+.bx-sbb-empty-cart-text {
+    font-size: 36px;
+    text-align: center;
+    color: #bababa;
+    margin-bottom: 42px;
+}

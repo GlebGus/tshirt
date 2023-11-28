@@ -29,9 +29,10 @@ public class Order {
         CANCELED
     }
 
-    public Order(int id, User user, String nameOfUser, String postOffice, String postalCode, String phoneNumber, OrderStatus orderStatus) {
+    public Order(int id, User user, List<TShirt> tshirts, String nameOfUser, String postOffice, String postalCode, String phoneNumber, OrderStatus orderStatus) {
         this.id = id;
         this.user = user;
+        this.tshirts = tshirts;
         this.nameOfUser = nameOfUser;
         this.postOffice = postOffice;
         this.postalCode = postalCode;

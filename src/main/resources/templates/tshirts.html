@@ -5,23 +5,33 @@
     <meta charset="UTF-8">
     <title>T-Shirts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link th:href="@{/styles/cssandjs/delete.css}" rel="stylesheet" />
-    <link th:href="@{/styles/cssandjs/removeFromCartButton.css}"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <link th:href="@{/styles/cssandjs/delete.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/cssandjs/logo.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/cssandjs/basket.css}" rel="stylesheet"/>
     <script type="text/javascript" th:src="@{/styles/cssandjs/scroll.js}"></script>
-    <script type="text/javascript" th:src="@{/styles/cssandjs/addButtonChange.js}"></script>
     <script type="text/javascript" th:src="@{/styles/cssandjs/profileOpen.js}"></script>
-    <script type="text/javascript" th:src="@{/styles/cssandjs/cartExistence.js}"></script>
 </head>
 <body>
-<h1>T-Shirts</h1>
+<div class="dark-section">
+    <div class="logo">
+        <a href="tshirts"> <img th:src="@{/styles/cssandjs/logo.png}" alt="Лого"></a>
+    </div>
+    <div class="profile">
+        <a href="profile">Профиль</a>
+    </div>
+    <div class="cart">
+        <a href="cart">Корзина</a>
+    </div>
+</div>
 <table>
     <tr>
-        <th sec:authorize="hasRole('ADMIN')">ID</th>
-        <th>Name</th>
-        <th>Description</th>
+        <th>Сортировка:</th>
         <th>
             <form action="/tshirts/sortBySize" method="get">
                 <p>
@@ -68,110 +78,113 @@
                 </p>
             </form>
         </th>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3" th:each="tShirt : ${tShirts}">
-                    <div class="card">
-                        <img class="card-img-top" th:src="@{/images/{id}(id=${tShirt.previewImageId})}" alt="Image" height="200" />
-                        <div class="card-body">
-                            <h3 class="card-title" th:text="${tShirt.name}"></h3>
-                            <p class="card-text" th:text="${tShirt.description}"></p>
-                            <p class="card-text" th:text="${tShirt.size}"></p>
-                            <p class="card-text" th:text="${tShirt.price}"></p>
-                            <p class="card-text" th:text="${tShirt.available}"></p>
-                            <a class="btn btn-primary" th:href="@{/tshirts/edit/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')">Edit</a>
-                            <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')" method="post">
-                                <input type="submit" value="Delete" class="btn btn-danger delete">
-                            </form>
-                            <script>
-                                $(".addToCartButton").click(function() {
-                                    var button = $(this);
-                                    var url = button.attr("href");
+</table>
 
-                                    // Отправляем AJAX-запрос для добавления товара в корзину
-                                    $.ajax({
-                                        url: url,
-                                        type: "GET",
-                                        success: function() {
-                                            // Добавляем товар в корзину
-
-                                            // Делаем кнопку недоступной
-                                            button.addClass("disabled");
-                                            button.attr("disabled", "disabled");
-
-                                            // Устанавливаем cookie с информацией о добавленном товаре
-                                            var tShirtId = button.data("tshirt-id");
-                                            document.cookie = "addedTShirt=" + tShirtId + "; path=/";
-
-                                            // Показываем кнопку "Remove from Cart"
-                                            button.addClass("added");
-                                            button.next(".removeFromCartButton").show();
-                                        }
-                                    });
-
-                                    return false;
-                                });
-
-                                $(".removeFromCartButton").click(function() {
-                                    var button = $(this);
-                                    var url = button.attr("href");
-
-                                    // Отправляем AJAX-запрос для удаления товара из корзины
-                                    $.ajax({
-                                        url: url,
-                                        type: "GET",
-                                        success: function() {
-                                            // Удаляем товар из корзины
-
-                                            // Изменяем кнопку на странице корзины
-                                            var tShirtId = button.data("tshirt-id");
-                                            var addToCartButton = $(".addToCartButton[data-tshirt-id='" + tShirtId + "']");
-                                            addToCartButton.removeClass("btn-danger added");
-                                            addToCartButton.addClass("btn-success");
-                                            addToCartButton.text("Add to Cart");
-                                            addToCartButton.removeClass("disabled");
-                                            addToCartButton.removeAttr("disabled");
-
-                                            // Удаляем cookie с информацией о добавленном товаре
-                                            document.cookie = "addedTShirt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-                                            // Скрываем кнопку "Remove from Cart"
-                                            button.hide();
-                                        }
-                                    });
-
-                                    return false;
-                                });
-                            </script>
-                            <a class="btn btn-success addToCartButton"
-                               th:href="@{/cart/add(tShirtid=${tShirt.id})}"
-                               th:classappend="${itemAdded} ? 'btn-danger' : ''"
-                               th:text="${itemAdded} ? 'Remove from Cart' : 'Add to Cart'"
-                               data-tshirt-id="${tShirt.id}">
-                            </a>
-                            <a class="btn btn-danger removeFromCartButton"
-                               th:href="@{/cart/remove(tShirtid=${tShirt.id})}"
-                               data-tshirt-id="${tShirt.id}" style="display:none;">
-                                Remove from Cart
-                            </a>
-                        </div>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2" th:each="tShirt : ${tShirts}">
+            <div class="card">
+                <img class="card-img-top" th:src="@{/images/{id}(id=${tShirt.previewImageId})}" alt="Image" height="270"
+                     width="202"/>
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${tShirt.name}"></h3>
+                    <p class="card-text" th:text="${tShirt.description}"></p>
+                    <p class="card-text" th:text="${tShirt.size}"></p>
+                    <p class="card-text" th:text="${tShirt.price}"></p>
+                    <p class="card-text" th:text="${tShirt.available}"></p>
+                    <a class="btn btn-primary" th:href="@{/tshirts/edit/{id}(id=${tShirt.id})}"
+                       sec:authorize="hasRole('ADMIN')">Edit</a>
+                    <form th:action="@{/tshirts/delete/{id}(id=${tShirt.id})}" sec:authorize="hasRole('ADMIN')"
+                          method="post">
+                        <input type="submit" value="Delete" class="btn btn-danger delete">
+                    </form>
+                    <a class="btn btn-success addToCartButton"
+                       th:href="@{/cart/add(tShirtid=${tShirt.id})}"
+                       th:classappend="${itemAdded} ? 'btn-danger' : ''"
+                       th:text="${itemAdded} ? 'Remove from Cart' : 'Add to Cart'"
+                       data-tshirt-id="${tShirt.id}">
+                    </a>
+                    <a class="btn btn-danger removeFromCartButton"
+                       th:href="@{/cart/remove(tShirtid=${tShirt.id})}"
+                       data-tshirt-id="${tShirt.id}" style="display:none;">
+                        Remove from Cart
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-</table>
-</tr>
-</table>
+<script>
+    $(document).on("click", ".addToCartButton", function () {
+        var button = $(this);
+        var url = button.attr("href");
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function () {
+                button.addClass("disabled");
+                button.attr("disabled", "disabled");
+                var tShirtId = button.data("tshirt-id");
+                document.cookie = "addedTShirt=" + tShirtId + "; path=/";
+                button.addClass("added");
+                button.next(".removeFromCartButton").show();
+            }
+        });
+        return false;
+    });
+    $(".removeFromCartButton").click(function () {
+        var button = $(this);
+        var url = button.attr("href");
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function () {
+                var tShirtId = button.data("tshirt-id");
+                var addToCartButton = $(".addToCartButton[data-tshirt-id='" + tShirtId + "']");
+                addToCartButton.removeClass("btn-danger added");
+                addToCartButton.addClass("btn-success");
+                addToCartButton.text("Add to Cart");
+                addToCartButton.removeClass("disabled");
+                addToCartButton.removeAttr("disabled");
+                document.cookie = "addedTShirt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                button.hide();
+            }
+        });
+        return false;
+    });
+</script>
 <a href="/register">Зарегестрировать пользователя</a>
 <a href="/login">Войти в систему</a>
-<a href="/profile"> Профиль</a>
+
 <button id="profileOpen" onclick="profileOpen()">Профиль</button>
 <div id="loginModal" class="modal fade" role="dialog">
     <!-- Содержимое модального окна -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Авторизация</h4>
+            </div>
+            <div class="modal-body">
+                <h1>Login</h1>
+                <p th:if="${param.error}" class="error">Wrong email or password</p>
+                <form th:action="@{/login}" method="post">
+                    <label for="email">Email</label>:
+                    <input type="text" id="email" name="username" autofocus="autofocus"/> <br/>
+                    <label for="password">Password</label>:
+                    <input type="password" id="password" name="password"/> <br/>
+                    <input type="submit" value="Log in"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/logout"> Выйти из системы</a>
+<a sec:authorize="hasRole('ADMIN')" href="/tshirts/create">Create T-Shirt</a>
+<a href="/cart">Cart</a>
 <script>
     function profileOpen() {
-        $.get("/checkAuth", function(response) {
+        $.get("/checkAuth", function (response) {
             if (response.authenticated) {
                 if (response.enabled) {
                     window.location.href = "/profile";
@@ -184,29 +197,5 @@
         });
     }
 </script>
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Авторизация</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h1>Login</h1>
-                <p th:if="${param.error}" class="error">Wrong email or password</p>
-                <form th:action="@{/login}" method="post">
-                    <label for="email">Email</label>:
-                    <input type="text" id="email" name="username" autofocus="autofocus" /> <br />
-                    <label for="password">Password</label>:
-                    <input type="password" id="password" name="password" /> <br />
-                    <input type="submit" value="Log in" />
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<a href="/logout"> Выйти из системы</a>
-<a sec:authorize="hasRole('ADMIN')" href="/tshirts/create">Create T-Shirt</a>
-<a href="/cart">Cart</a>
 </body>
 </html>
